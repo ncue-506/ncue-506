@@ -96,6 +96,14 @@ select {
   text-decoration: none;
 }
 
+.masthead-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .site-nav {
   display: flex;
   flex-wrap: wrap;
@@ -110,6 +118,39 @@ select {
 
 .site-nav a:hover {
   color: var(--text);
+}
+
+.language-switch {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  background: #fffdf9;
+}
+
+.language-option {
+  min-height: 30px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  line-height: 1;
+  padding: 4px 9px;
+}
+
+.language-option + .language-option {
+  border-left: 1px solid var(--border);
+}
+
+.language-option:hover {
+  background: var(--sidebar);
+  color: var(--text);
+}
+
+.language-option.is-active {
+  background: var(--text);
+  color: #fff;
 }
 
 .page {
@@ -503,6 +544,11 @@ p {
     flex-direction: column;
     gap: 8px;
     padding: 12px 0;
+  }
+
+  .masthead-actions {
+    justify-content: flex-start;
+    gap: 10px 14px;
   }
 
   .site-nav {
