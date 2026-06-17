@@ -272,7 +272,7 @@
   function t(key, values = {}) {
     const value = translations[currentLanguage][key] || translations.zh[key] || "";
     return Object.entries(values).reduce(
-      (text, [name, replacement]) => text.replaceAll(`{${name}}`, String(replacement)),
+      (text, [name, replacement]) => text.split(`{${name}}`).join(String(replacement)),
       value
     );
   }
