@@ -453,6 +453,18 @@ p {
   line-height: 1.45;
 }
 
+.publication-authors {
+  margin: -2px 0 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.publication-authors strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
 .publication-tags {
   display: flex;
   flex-wrap: wrap;

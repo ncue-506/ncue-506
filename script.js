@@ -305,6 +305,51 @@
     return localize("venues", venue);
   }
 
+  function abbreviateGivenName(givenName) {
+    return String(givenName || "")
+      .trim()
+      .split(/\s+/)
+      .map((part) => part
+        .split("-")
+        .map((segment) => (segment ? `${segment[0].toUpperCase()}.` : ""))
+        .filter(Boolean)
+        .join("-"))
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  function formatAuthorName(author) {
+    if (typeof author === "string") return author;
+    const initials = abbreviateGivenName(author.given);
+    const family = String(author.family || "").trim();
+    return [initials, family].filter(Boolean).join(" ");
+  }
+
+  function isProfessorAuthor(author) {
+    if (!author || typeof author === "string") return false;
+    const given = String(author.given || "").toLowerCase().replace(/[^a-z]/g, "");
+    const family = String(author.family || "").toLowerCase();
+    return given === "chinwen" && family === "liao";
+  }
+
+  function formatPublicationDate(dateValue, yearValue) {
+    const value = String(dateValue || "");
+    const match = value.match(/^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$/);
+    if (!match) return value;
+
+    const [, year, month, day] = match;
+    if (String(yearValue) !== year || !month) return value;
+
+    const monthNumber = Number(month);
+    const dayNumber = day ? Number(day) : null;
+    if (currentLanguage === "zh") {
+      return dayNumber ? `${monthNumber} 月 ${dayNumber} 日` : `${monthNumber} 月`;
+    }
+
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return dayNumber ? `${monthNames[monthNumber - 1]} ${dayNumber}` : monthNames[monthNumber - 1];
+  }
+
   function labelVariants(group, key) {
     return Object.values(labelSets)
       .map((labels) => labels[group][key])
@@ -389,8 +434,16 @@
     const query = (searchInput?.value || "").trim().toLowerCase();
     const selectedYear = yearFilter?.value || "all";
     const selectedType = typeFilter?.value || "all";
+    const authorText = (item.authors || [])
+      .map((author) => [
+        author.given,
+        author.family,
+        formatAuthorName(author)
+      ].filter(Boolean).join(" "))
+      .join(" ");
     const haystack = [
       item.title,
+      authorText,
       item.venue,
       ...labelVariants("venues", item.venue),
       item.theme,
@@ -426,13 +479,22 @@
     year.textContent = item.year || t("yearMissing");
     const date = document.createElement("div");
     date.className = "publication-date";
-    date.textContent = item.date || "";
+    date.textContent = formatPublicationDate(item.date, item.year);
     dateBlock.append(year, date);
 
     const body = document.createElement("div");
     const title = document.createElement("h3");
     title.className = "publication-title";
     title.textContent = item.title;
+
+    const authors = document.createElement("p");
+    authors.className = "publication-authors";
+    (item.authors || []).forEach((author, index) => {
+      if (index > 0) authors.append(document.createTextNode(", "));
+      const authorElement = document.createElement(isProfessorAuthor(author) ? "strong" : "span");
+      authorElement.textContent = formatAuthorName(author);
+      authors.append(authorElement);
+    });
 
     const venue = document.createElement("div");
     venue.className = "publication-venue";
@@ -442,7 +504,9 @@
     tags.className = "publication-tags";
     tags.append(makeTag(localizeType(item.type)));
     if (item.theme) tags.append(makeTag(localizeTheme(item.theme)));
-    body.append(title, venue, tags);
+    body.append(title);
+    if ((item.authors || []).length) body.append(authors);
+    body.append(venue, tags);
 
     const link = document.createElement("a");
     link.className = "doi-link";
