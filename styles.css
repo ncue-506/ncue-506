@@ -122,6 +122,10 @@ select {
   color: var(--text);
 }
 
+.nav-label-compact {
+  display: none;
+}
+
 .language-switch {
   display: inline-flex;
   overflow: hidden;
@@ -547,22 +551,29 @@ p {
   .masthead-inner {
     align-items: flex-start;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px 0;
+    gap: 12px;
+    padding: 14px 0;
   }
 
   .masthead-actions {
     align-items: flex-start;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
   }
 
   .site-nav {
+    flex: 1 1 auto;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 10px 14px;
+    gap: 8px 12px;
+    line-height: 1.35;
     white-space: normal;
+  }
+
+  .language-switch {
+    flex: 0 0 auto;
   }
 }
 
@@ -577,20 +588,58 @@ p {
     width: min(100% - 28px, var(--max));
   }
 
+  .site-name {
+    font-size: 1.18rem;
+  }
+
+  .site-nav {
+    gap: 7px 10px;
+    font-size: 0.86rem;
+  }
+
+  .language-option {
+    min-height: 34px;
+    padding: 4px 9px;
+    font-size: 0.84rem;
+  }
+
   .page {
-    padding-top: 28px;
+    padding-top: 24px;
   }
 
   .sidebar {
-    grid-template-columns: 86px minmax(0, 1fr);
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 16px;
   }
 
   .profile-photo img {
-    width: 86px;
+    width: 92px;
   }
 
   .author h1 {
-    font-size: 1.35rem;
+    font-size: 1.45rem;
+  }
+
+  .author-en {
+    margin-bottom: 8px;
+  }
+
+  .author-links {
+    margin-top: 18px;
+  }
+
+  .author-links li {
+    padding: 9px 0;
+  }
+
+  .section {
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    margin-bottom: 14px;
+    font-size: 1.58rem;
   }
 
   .interest-list {
@@ -610,5 +659,57 @@ p {
 
   .doi-link {
     justify-self: start;
+  }
+}
+
+@media (max-width: 360px) {
+  .masthead-inner,
+  .page,
+  .footer {
+    width: min(100% - 24px, var(--max));
+  }
+
+  .masthead-actions {
+    gap: 6px;
+  }
+
+  .site-nav {
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+
+  .nav-label-full {
+    display: none;
+  }
+
+  .nav-label-compact {
+    display: inline;
+  }
+
+  .language-option {
+    min-height: 32px;
+    padding: 4px 5px;
+    font-size: 0.75rem;
+  }
+
+  .sidebar {
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .profile-photo img {
+    width: 80px;
+  }
+
+  .author h1 {
+    font-size: 1.34rem;
+  }
+
+  .author-en {
+    font-size: 0.92rem;
+  }
+
+  .position {
+    font-size: 0.84rem;
   }
 }
