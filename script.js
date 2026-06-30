@@ -10,6 +10,7 @@
   const resultCount = document.querySelector("#publication-result-count");
   const publicationCount = document.querySelector("[data-publication-count]");
   const languageButtons = document.querySelectorAll("[data-language-option]");
+  const navigationLinks = [...document.querySelectorAll(".site-nav a[href^='#']")];
   const initialPublicationLimit = 5;
   const languageStorageKey = "ncue506-language";
   let publicationsExpanded = false;
@@ -357,8 +358,19 @@
   }
 
   function updateHeader() {
-    if (!header) return;
-    header.classList.toggle("is-solid", window.scrollY > 24);
+    header?.classList.toggle("is-solid", window.scrollY > 24);
+
+    const activeLink = navigationLinks.reduce((current, link) => {
+      const section = document.querySelector(link.getAttribute("href"));
+      return section && section.offsetTop <= window.scrollY + 180 ? link : current;
+    }, navigationLinks[0]);
+
+    navigationLinks.forEach((link) => {
+      const isActive = link === activeLink;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
   }
 
   function updateStaticText() {
@@ -462,18 +474,12 @@
     return matchesQuery && matchesYear && matchesType;
   }
 
-  function makeTag(text) {
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = text;
-    return tag;
-  }
-
   function makePublicationCard(item) {
     const article = document.createElement("article");
     article.className = "publication-card";
 
     const dateBlock = document.createElement("div");
+    dateBlock.className = "publication-date-block";
     const year = document.createElement("div");
     year.className = "publication-year";
     year.textContent = item.year || t("yearMissing");
@@ -496,17 +502,28 @@
       authors.append(authorElement);
     });
 
-    const venue = document.createElement("div");
-    venue.className = "publication-venue";
-    venue.textContent = item.venue ? `${t("publishedIn")}${localizeVenue(item.venue)}` : t("venueMissing");
-
-    const tags = document.createElement("div");
-    tags.className = "publication-tags";
-    tags.append(makeTag(localizeType(item.type)));
-    if (item.theme) tags.append(makeTag(localizeTheme(item.theme)));
+    const metadata = document.createElement("div");
+    metadata.className = "publication-metadata";
+    const metadataItems = [
+      item.venue ? `${t("publishedIn")}${localizeVenue(item.venue)}` : t("venueMissing"),
+      localizeType(item.type),
+      item.theme ? localizeTheme(item.theme) : ""
+    ].filter(Boolean);
+    metadataItems.forEach((text, index) => {
+      if (index > 0) {
+        const separator = document.createElement("span");
+        separator.className = "publication-separator";
+        separator.setAttribute("aria-hidden", "true");
+        separator.textContent = "/";
+        metadata.append(separator);
+      }
+      const itemElement = document.createElement("span");
+      itemElement.textContent = text;
+      metadata.append(itemElement);
+    });
     body.append(title);
     if ((item.authors || []).length) body.append(authors);
-    body.append(venue, tags);
+    body.append(metadata);
 
     const link = document.createElement("a");
     link.className = "doi-link";

@@ -8,12 +8,12 @@
       content="廖錦文教授研究室網站，整理教授資訊、研究方向、實驗室空間與 ORCID 研究發表。"
     >
     <title>廖錦文 教授 | 國立彰化師範大學</title>
-    <link rel="stylesheet" href="styles.css?v=20260618-0015">
+    <link rel="stylesheet" href="styles.css?v=20260630-0017">
   </head>
   <body>
     <a class="skip-link" href="#main" data-i18n="skipLink">跳到主要內容</a>
 
-    <header class="masthead">
+    <header class="masthead" data-header>
       <div class="masthead-inner">
         <a class="site-name" href="#top" data-i18n="siteName">廖錦文 教授</a>
         <div class="masthead-actions">
@@ -27,8 +27,8 @@
             </a>
           </nav>
           <div class="language-switch" role="group" aria-label="語言選擇" data-i18n-attr="aria-label:languageSwitchLabel">
-            <button class="language-option is-active" type="button" data-language-option="zh">中文</button>
-            <button class="language-option" type="button" data-language-option="en">English</button>
+            <button class="language-option is-active" type="button" lang="zh-Hant" data-language-option="zh">中文</button>
+            <button class="language-option" type="button" lang="en" data-language-option="en">English</button>
           </div>
         </div>
       </div>
@@ -59,8 +59,7 @@
       </aside>
 
       <main id="main" class="content">
-        <section id="about" class="section">
-          <p class="page-kicker" data-i18n="kicker">國立彰化師範大學</p>
+        <section id="about" class="section section--lead">
           <h2 data-i18n="aboutHeading">關於</h2>
           <p data-i18n="aboutParagraphOne">
             本研究室由廖錦文教授主持。廖教授於國立臺灣師範大學取得工業教育碩士與博士學位，
@@ -82,7 +81,7 @@
           </div>
         </section>
 
-        <section id="research" class="section">
+        <section id="research" class="section section--research">
           <h2 data-i18n="researchHeading">研究方向</h2>
           <ul class="interest-list">
             <li data-i18n="interestVocational">技術及職業教育</li>
@@ -95,7 +94,7 @@
           </ul>
         </section>
 
-        <section class="section">
+        <section class="section section--themes">
           <h2 data-i18n="themesHeading">研究主題</h2>
           <div class="theme-list">
             <article>
@@ -141,7 +140,7 @@
           </div>
         </section>
 
-        <section id="lab" class="section">
+        <section id="lab" class="section section--lab">
           <h2 data-i18n="labHeading">實驗室空間</h2>
           <p data-i18n="labIntro">
             以下照片作為實驗室工作環境的紀錄：包含教學桌面、控制面板、接線練習、量測設備與相關輔助系統。
@@ -167,7 +166,7 @@
           </div>
         </section>
 
-        <section id="publications" class="section">
+        <section id="publications" class="section section--publications">
           <div class="publication-header">
             <div>
               <h2 data-i18n="publicationsHeading">研究發表</h2>
@@ -214,7 +213,7 @@
       <p data-i18n="footer">廖錦文 教授 / 國立彰化師範大學</p>
     </footer>
 
-    <script src="data/publications.js?v=20260618-0015"></script>
-    <script src="script.js?v=20260618-0015"></script>
+    <script src="data/publications.js?v=20260630-0016"></script>
+    <script src="script.js?v=20260630-0016"></script>
   </body>
 </html>
